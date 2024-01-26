@@ -1,8 +1,16 @@
 [package]
-name = "compiler-in-rust"
+name = "compiler_in_rust"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
+[[bin]]
+name = "repl"
+path = "src/repl/repl.rs"
+
+[[bin]]
+name = "lib"
+path = "src/lib.rs"
