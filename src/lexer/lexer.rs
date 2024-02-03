@@ -1,5 +1,3 @@
-use std::{fmt::Error, process::id};
-
 use crate::tokens::tokens::Token;
 
 pub struct Lexer {
