@@ -7,8 +7,19 @@ pub enum Token {
     Slash,
     Question,
     Bang,
+    NotEqual,
+    Equal,
     Assign,
     Eof,
+    Ident(String),
+    Integer(String),
+    If,
+    Else,
+    Func,
+    Return,
+    True,
+    False,
+
 }
 
 impl Display for Token {
@@ -21,6 +32,16 @@ impl Display for Token {
             Token::Question => write!(f, "Question"),
             Token::Bang => write!(f, "Bang"),
             Token::Assign => write!(f, "Assign"),
+            Token::Equal => write!(f, "Equal"),
+            Token::NotEqual => write!(f, "Not Equal"),
+            Token::Ident(ident) => write!(f, "Ident {ident}"),
+            Token::Integer(int) => write!(f, "Integer {int}"),
+            Token::If => write!(f, "IF"),
+            Token::Else => write!(f, "ELSE"),
+            Token::Func => write!(f, "FUNCTION"),
+            Token::Return => write!(f, "Return"),
+            Token::True => write!(f, "TRUE"),
+            Token::False => write!(f, "FALSE"),
             Token::Eof => write!(f, "Eof"),
         };
     }
