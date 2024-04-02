@@ -29,7 +29,7 @@ impl Lexer {
             b'-' => Token::Minus,
             b'*' => Token::Asterisk,
             b'/' => Token::Slash,
-
+            b';' => Token::Semicolon,
             b'?' => Token::Question,
             b'!' => {
                 if b'=' == self.peek() {
@@ -60,6 +60,7 @@ impl Lexer {
                     "return" => Token::Return,
                     "fax" => Token::True,
                     "cap" => Token::False,
+                    "var" => Token::Var,
                     _ => Token::Ident(ident)
                 });    
             },
