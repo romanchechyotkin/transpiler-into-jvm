@@ -26,7 +26,6 @@ impl Generator {
                     Expr::LitExpr(Literal::IntLit(num)) => {
                         self.counter += 1;
                         self.var_map.insert(var_name.0.clone(), self.counter);
-                        // dbg!(&self.var_map);
 
                         instructions.push(JVMInstruction::IConst(*num));
                         instructions.push(JVMInstruction::IStore(self.var_map.get(&var_name.0).unwrap().clone()));
@@ -57,11 +56,7 @@ impl Generator {
                     }
                 }
             }
-            Stmt::ExprStmt(expr) => {
-                let mut instructions = Vec::new();
-                instructions
-                // format!("{}", expr)
-            }
+            _ => panic!("not implemented"),
         }
     }
     

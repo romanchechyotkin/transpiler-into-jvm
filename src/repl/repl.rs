@@ -1,5 +1,5 @@
 use compiler_in_rust::parser::parser::Parser;
-use compiler_in_rust::generator::{generator, generator::Generator};
+use compiler_in_rust::generator::generator::Generator;
 
 fn main() {
     let input = "
