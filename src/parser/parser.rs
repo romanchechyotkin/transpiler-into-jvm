@@ -29,7 +29,6 @@ impl Parser {
         let mut program: Program = Vec::new();    
         
         while let Some(tok) = &self.curr_token {
-            dbg!(&tok.token_literal());
             if let Token::Eof = tok {
                 break;
             }
