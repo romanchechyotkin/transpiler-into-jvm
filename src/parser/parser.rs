@@ -1,4 +1,4 @@
-use crate::ast::ast::{Expr, Ident, Program, Stmt};
+use crate::ast::ast::{Expr, Ident, Literal, Program, Stmt};
 use crate::lexer::lexer::Lexer;
 use crate::tokens::tokens::Token;
 
@@ -59,6 +59,9 @@ impl Parser {
             Some(Token::Var) => {
                 Ok(self.parse_var_statement().ok().unwrap())
             }
+            Some(_) => {
+                Ok(self.parse_expression_statement().ok().unwrap())   
+            }
             _ => {
                 Err(())
             },
@@ -71,28 +74,57 @@ impl Parser {
         }   
 
         let var_ident = self.curr_token.as_ref().unwrap().token_literal();
-        dbg!(&var_ident);
 
         if !self.expect_peek(Token::Assign) {
             return Err(());
         }
+        self.next_token();
 
-        // TODO: parse expression
+
+        let exp = self.parse_expression().ok().unwrap();
 
         let stmt = Stmt::VarStmt(
             Ident(var_ident),
-            Expr::IdentExpr(Ident(self.peek_token.as_ref().unwrap().token_literal())),
+            exp,
         );
-
-        dbg!(&stmt);
-        dbg!(&self.curr_token);
-        dbg!(&self.peek_token);
 
         while !self.curr_token_is(Token::Semicolon) {
             self.next_token();
         }
 
         return Ok(stmt);
+    }
+
+    fn parse_expression_statement(&mut self) -> Result<Stmt, ()> {
+        let exp: Expr = self.parse_expression().ok().unwrap();
+        
+        let stmt = Stmt::ExprStmt(exp); 
+
+        if self.peek_token_is(Token::Semicolon) {
+            self.next_token();
+        }
+
+        Ok(stmt)
+    }
+
+    fn parse_expression(&mut self) -> Result<Expr, ()> {
+        match self.curr_token {
+            Some(Token::Ident(_)) => {
+                Ok(self.parse_ident())
+            }
+            Some(Token::Integer(_)) => {
+                Ok(self.parse_int())
+            }
+            _ => Err(()),
+        }
+    }
+
+    fn parse_ident(&mut self) -> Expr {
+        return Expr::IdentExpr(Ident(self.curr_token.as_ref().unwrap().token_literal()));
+    }
+
+    fn parse_int(&mut self) -> Expr {
+        return Expr::LitExpr(Literal::IntLit(self.curr_token.as_ref().unwrap().token_literal().parse::<i64>().unwrap()));
     }
 
     fn expect_peek(&mut self, tok: Token) -> bool {
