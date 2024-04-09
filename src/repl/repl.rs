@@ -2,12 +2,15 @@ use compiler_in_rust::parser::parser::Parser;
 use compiler_in_rust::generator::generator::Generator;
 use std::process::{Command, Output};
 
+// todo print
+
 fn main() {
     let input = "
     var wasd = 5; 
     var a = wasd; 
     var aa = a;   
     var aaa = wasd; 
+    var aaaa = 1; 
 ";
 
     let mut parser = Parser::new(input.to_string());
@@ -28,6 +31,12 @@ fn main() {
         instructions.append(&mut args);
     }
     
+    instructions.push("Print_1");
+    instructions.push("Print_2");
+    instructions.push("Print_3");
+    instructions.push("Print_4");
+    instructions.push("Print_5");
+
     cmd(&instructions)
 }
 

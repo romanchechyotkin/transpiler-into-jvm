@@ -6,6 +6,7 @@ pub enum JVMInstruction {
     IConst(i64),
     IStore(i64),
     ILoad(i64),
+    Print(i64),
 }
 
 impl JVMInstruction {
@@ -14,10 +15,10 @@ impl JVMInstruction {
         match &self {
             JVMInstruction::IConst(val) => format!("IConst_{}", val),   
             JVMInstruction::IStore(val) => format!("IStore_{}", val),   
-            JVMInstruction::ILoad(val) => format!("ILoad_{}", val)   
+            JVMInstruction::ILoad(val) => format!("ILoad_{}", val),   
+            JVMInstruction::Print(val) => format!("Print_{}", val)   
         }
     }
-
 
 }
 
