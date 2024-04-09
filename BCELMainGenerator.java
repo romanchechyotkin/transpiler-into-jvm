@@ -5,6 +5,8 @@ import org.apache.bcel.classfile.*;
 public class BCELMainGenerator {
 
     public static void main(String[] args) {
+        System.out.println(args.length);
+
         try {
             generateMainClass("Main");
             System.out.println("Main class generated successfully.");

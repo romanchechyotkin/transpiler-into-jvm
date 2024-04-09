@@ -1,5 +1,5 @@
 use compiler_in_rust::parser::parser::Parser;
-use compiler_in_rust::generator::generator::{Generator, JVMInstruction};
+use compiler_in_rust::generator::generator::Generator;
 use std::process::{Command, Output};
 
 fn main() {
@@ -15,19 +15,25 @@ fn main() {
 
     let mut generator: Generator = Generator::new();
 
-    let mut instructions: Vec<JVMInstruction> = Vec::new(); 
+    let mut instructions: Vec<&str> = Vec::new(); 
 
     for stmt in &program {
         let mut ins = generator.generate_code(stmt);
-        instructions.append(&mut ins);
+        let mut args: Vec<&str> = Vec::new(); 
+
+        for i in &ins {
+            args.push(i.format().leak());
+        }
+
+        instructions.append(&mut args);
     }
     
-    dbg!(&instructions);
-
-    cmd()
+    cmd(&instructions)
 }
 
-fn cmd() {
+fn cmd(instructions: &Vec<&str>) {
+    dbg!(&instructions);
+    
     let mut output = Command::new("javac")
         .arg("-cp")
         .arg("bcel-6.8.2.jar")
@@ -37,11 +43,11 @@ fn cmd() {
 
     print_output(&output);
 
-
     output = Command::new("java")
         .arg("-cp")
         .arg(".:bcel-6.8.2.jar")
         .arg("BCELMainGenerator")
+        .args(instructions)
         .output()
         .expect("failed to run java");
 

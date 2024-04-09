@@ -8,6 +8,19 @@ pub enum JVMInstruction {
     ILoad(i64),
 }
 
+impl JVMInstruction {
+
+    pub fn format(&self) -> String {
+        match &self {
+            JVMInstruction::IConst(val) => format!("IConst_{}", val),   
+            JVMInstruction::IStore(val) => format!("IStore_{}", val),   
+            JVMInstruction::ILoad(val) => format!("ILoad_{}", val)   
+        }
+    }
+
+
+}
+
 pub struct Generator {
     var_map: HashMap<String, i64>,
     counter: i64
