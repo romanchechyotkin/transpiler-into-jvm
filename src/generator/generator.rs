@@ -1,12 +1,13 @@
 use std::collections::HashMap;
-use crate::ast::ast::{Expr, Literal, Stmt};
+use crate::ast::ast::{Expr, Literal, Stmt, Ident};
 
 #[derive(PartialEq, Debug, Clone)]
 pub enum JVMInstruction {
     IConst(i64),
     IStore(i64),
     ILoad(i64),
-    Print(i64),
+    LPrint(i64),
+    IPrint(i64),
 }
 
 impl JVMInstruction {
@@ -16,10 +17,10 @@ impl JVMInstruction {
             JVMInstruction::IConst(val) => format!("IConst_{}", val),   
             JVMInstruction::IStore(val) => format!("IStore_{}", val),   
             JVMInstruction::ILoad(val) => format!("ILoad_{}", val),   
-            JVMInstruction::Print(val) => format!("Print_{}", val)   
-        }
+            JVMInstruction::LPrint(val) => format!("LPrint_{}", val),   
+            JVMInstruction::IPrint(val) => format!("IPrint_{}", val),   
+        }  
     }
-
 }
 
 pub struct Generator {
@@ -61,7 +62,24 @@ impl Generator {
                     }
                 }
             }
-            _ => panic!("not implemented"),
+            Stmt::PrintStmt(exp) => {
+                let mut instructions = Vec::new();
+                match exp {
+                    Expr::IdentExpr(ident) => {
+                        let num = self.var_map.get(&ident.0).unwrap();
+
+                        instructions.push(JVMInstruction::IPrint(*num));
+                        instructions
+                    },
+                    Expr::LitExpr(Literal::IntLit(num)) => {
+
+                        instructions.push(JVMInstruction::LPrint(*num));
+                        instructions
+                        
+                    },
+                }
+            }
+            _ => todo!(),
         }
     }
 }

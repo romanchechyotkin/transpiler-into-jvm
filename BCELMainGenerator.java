@@ -37,10 +37,16 @@ public class BCELMainGenerator {
                 case "IStore":
                     il.append(new ISTORE(Integer.parseInt(parts[1])));
                     break;
-                case "Print":   
+                case "LPrint":
+                    il.append(new GETSTATIC(cp.addFieldref("java.lang.System", "out", "Ljava/io/PrintStream;")));
+                    il.append(new PUSH(cp, Integer.parseInt(parts[1])));
+                    il.append(new INVOKEVIRTUAL(cp.addMethodref("java.io.PrintStream", "println", "(I)V")));
+                    break;
+                case "IPrint":  
                     il.append(new GETSTATIC(cp.addFieldref("java.lang.System", "out", "Ljava/io/PrintStream;")));
                     il.append(new ILOAD(Integer.parseInt(parts[1])));
                     il.append(new INVOKEVIRTUAL(cp.addMethodref("java.io.PrintStream", "println", "(I)V")));
+                    break;    
             }
         }
 

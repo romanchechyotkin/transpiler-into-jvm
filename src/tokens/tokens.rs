@@ -4,6 +4,8 @@ use std::fmt::{Debug, Display};
 pub enum Token {
     Var,
     Plus,
+    LParen,
+    RParen,
     Minus,
     Asterisk,
     Slash,
@@ -22,13 +24,17 @@ pub enum Token {
     Return,
     True,
     False,
+    Print,
 }
 
 impl Token {
     pub fn token_literal(&self) -> String {
         return match self {
             Token::Var => "Var".to_string(),
+            Token::Print => "Print".to_string(),
             Token::Plus => "Plus".to_string(),
+            Token::LParen => "(".to_string(),
+            Token::RParen => ")".to_string(),
             Token::Minus => "Minus".to_string(),
             Token::Asterisk => "Asterisk".to_string(),
             Token::Slash => "Slash".to_string(),
@@ -56,6 +62,8 @@ impl Display for Token {
         return match self {
             Token::Var => write!(f, "VAR"),
             Token::Plus => write!(f, "Plus"),
+            Token::LParen => write!(f, "("),
+            Token::RParen => write!(f, ")"),
             Token::Minus => write!(f, "Minus"),
             Token::Asterisk => write!(f, "Asterisk"),
             Token::Slash => write!(f, "Slash"),
@@ -73,6 +81,7 @@ impl Display for Token {
             Token::Return => write!(f, "Return"),
             Token::True => write!(f, "TRUE"),
             Token::False => write!(f, "FALSE"),
+            Token::Print => write!(f, "PRINT"),
             Token::Eof => write!(f, "Eof"),
         };
     }

@@ -29,6 +29,7 @@ impl Display for Expr {
 #[derive(PartialEq, Debug, Clone)]
 pub enum Stmt {
     VarStmt(Ident, Expr),
+    PrintStmt(Expr),
     ExprStmt(Expr)
 }
 

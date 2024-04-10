@@ -58,6 +58,9 @@ impl Parser {
             Some(Token::Var) => {
                 Ok(self.parse_var_statement().ok().unwrap())
             }
+            Some(Token::Print) => {
+                Ok(self.parse_print_statement().ok().unwrap())
+            }
             Some(_) => {
                 Ok(self.parse_expression_statement().ok().unwrap())   
             }
@@ -94,14 +97,40 @@ impl Parser {
         return Ok(stmt);
     }
 
+    fn parse_print_statement(&mut self) -> Result<Stmt, ()> {
+        if !self.expect_peek(Token::LParen) {
+            return Err(());
+        }   
+        self.next_token();
+        
+        dbg!(&self.curr_token);
+
+        let exp = self.parse_expression().ok().unwrap();
+
+        dbg!(&self.curr_token);
+        dbg!(&self.curr_token);
+
+        if !self.expect_peek(Token::RParen) {
+            return Err(());
+        } 
+
+        let stmt = Stmt::PrintStmt(exp);
+
+        while !self.curr_token_is(Token::Semicolon) {
+            self.next_token();
+        }
+        
+        return Ok(stmt);
+    }
+
     fn parse_expression_statement(&mut self) -> Result<Stmt, ()> {
         let exp: Expr = self.parse_expression().ok().unwrap();
         
         let stmt = Stmt::ExprStmt(exp); 
 
-        if self.peek_token_is(Token::Semicolon) {
-            self.next_token();
-        }
+        // if self.peek_token_is(Token::Semicolon) {
+        //     self.next_token();
+        // }
 
         Ok(stmt)
     }

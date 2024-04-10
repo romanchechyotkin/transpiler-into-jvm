@@ -11,6 +11,10 @@ fn main() {
     var aa = a;   
     var aaa = wasd; 
     var aaaa = 1; 
+    print(a);
+    print(1);
+    print(20);
+    print(aaaa);
 ";
 
     let mut parser = Parser::new(input.to_string());
@@ -31,12 +35,6 @@ fn main() {
         instructions.append(&mut args);
     }
     
-    instructions.push("Print_1");
-    instructions.push("Print_2");
-    instructions.push("Print_3");
-    instructions.push("Print_4");
-    instructions.push("Print_5");
-
     cmd(&instructions)
 }
 
