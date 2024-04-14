@@ -9,7 +9,13 @@ cargo run --bin repl
 compile for jvm 
 
 ```
-  var a = 1;
-  var b = 1;
-  var c = a + b;
+    var wasd = 5; 
+    var a = wasd; 
+    var aa = a;   
+    var aaa = wasd; 
+    var aaaa = 1; 
+    print(a); // 5
+    print(1); // 1
+    print(20); // 20
+    print(aaaa); // 1
 ```
