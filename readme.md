@@ -1,4 +1,4 @@
-# Transiler in Rust for JVM
+# Transpiler in Rust for JVM
 
 ```sh
 cargo run --bin repl
